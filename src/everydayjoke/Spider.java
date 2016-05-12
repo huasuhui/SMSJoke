@@ -16,8 +16,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import jdbcUtils.ExecSQL;
-
 public class Spider {
 	public Spider(){}
 	
