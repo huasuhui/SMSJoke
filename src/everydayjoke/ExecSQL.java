@@ -73,8 +73,23 @@ public class ExecSQL {
 		return result;
 	}
 	
+	public boolean executeInsert(String sql){
+		int resultt = 0;
+		try {
+			stmt = (Statement) conn.createStatement();
+			resultt = stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			closeSource(conn,stmt,ret);
+		}
+		
+		return resultt == 1;
+	}
+	
 	//close source
-	public void closeSource(Connection conn,PreparedStatement pst,ResultSet ret){
+	private void closeSource(Connection conn,Statement pst,ResultSet ret){
 		
 			try {
 				if(ret!=null){

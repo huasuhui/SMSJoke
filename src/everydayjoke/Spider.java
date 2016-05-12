@@ -46,6 +46,7 @@ public class Spider {
 			String titleRGX = "article-summary.*?article-title.*?target.*?>(.*?)</a>.*?summary-text\">(.*?)</div>";
 			Pattern pattern = Pattern.compile(titleRGX); 
 			Matcher matcher = pattern.matcher(content);
+			
 			while(matcher.find()){
 				String title = matcher.group(1);
 				String article = matcher.group(2);
@@ -57,9 +58,9 @@ public class Spider {
 				if(!insertDB(title,article)){
 					System.out.println(title+" b");
 				}
-				SMSSend mSMSSend = new SMSSend();
-				mSMSSend.taobaosend(title+article);
-				break;
+//				SMSSend mSMSSend = new SMSSend();
+//				mSMSSend.taobaosend(title+article);
+//				break;
 
 			}
 
@@ -72,7 +73,7 @@ public class Spider {
 	// insert titie,content into database
 	private boolean insertDB(String title,String content){
 		ExecSQL tExecSQL = new ExecSQL();
-		boolean res = tExecSQL.executeInsert("insert into article(title,content,hassent) values('"+title+"','"+content+"','0')");
+		boolean res = tExecSQL.executeInsert("insert into article(title,content,hassend) values('"+title+"','"+content+"','0')");
 		if(!res){
 			return false;
 		}
