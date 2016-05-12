@@ -22,9 +22,10 @@ public class SMSSend {
 		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
 		req.setExtend("123456");
 		req.setSmsType("normal");
-		req.setSmsFreeSignName("娲诲姩楠岃瘉");
-		req.setSmsParamString("{\"code\":\"huasuhui\",\"product\":\"suifengJoke\",\"item\":\""+content+"\"}");
-		req.setRecNum("15601581985");
+		req.setSmsFreeSignName("活动验证");
+		content = "一个，就一个，只有一个！";
+		req.setSmsParamString("{\"code\":\"xiao2B\",\"product\":\"suifengJoke\",\"item\":\""+content+"\"}");
+		req.setRecNum("18652809982");
 		req.setSmsTemplateCode("SMS_7865119");
 		AlibabaAliqinFcSmsNumSendResponse rsp;
 		

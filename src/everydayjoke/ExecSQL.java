@@ -1,8 +1,9 @@
-package jdbcUtils;
+package everydayjoke;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.mysql.jdbc.Connection;
@@ -20,6 +21,8 @@ public class ExecSQL {
 	private Statement stmt = null; 
 	private ResultSet ret = null;
 	
+	private ArrayList<ArrayList<String>> resultList = null;
+	
 	public ExecSQL(){
 		if(conn == null){
 			try {
@@ -36,14 +39,20 @@ public class ExecSQL {
         conn = (Connection) DriverManager.getConnection(url, username, password);
 	}
 	
-	public void executeQuery(String sql){
+	public ArrayList<ArrayList<String>> executeQuery(String sql){
+		resultList = new ArrayList<ArrayList<String>>();
 		try {
 			stmt = (Statement) conn.createStatement();
 			ret = stmt.executeQuery(sql);
 			while(ret.next()){
-				System.out.println(ret.getMetaData().getColumnCount()); //can get column count
-				System.out.println(ret.getString(1));
-				System.out.println(ret.getString(2));
+//				System.out.println(ret.getMetaData().getColumnCount()); //can get column count
+//				System.out.println(ret.getString(1));
+//				System.out.println(ret.getString(2));
+				ArrayList<String> tmpArrayList = new ArrayList<String>();
+				for(int i=0;i<=ret.getMetaData().getColumnCount();i++){
+					tmpArrayList.add(ret.getString(i));
+				}
+				resultList.add(tmpArrayList);
 			}
 
 		} catch (Exception e) {
@@ -51,21 +60,17 @@ public class ExecSQL {
 		} finally{
 			
 		}
-
-
+		
+		return resultList;
 	}
 	
-	public boolean executeInsert(String sql){
-		int res = 0;
-		try {
-			stmt = (Statement) conn.createStatement();
-			res = stmt.executeUpdate(sql);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public String getOneValue(String sql){
+		ArrayList<ArrayList<String>> list = executeQuery(sql);
+		String result = list.get(0).get(0);
+		if(result == null || "".equals(result)){
+			result = "";
 		}
-		
-		return res==1;
-		
+		return result;
 	}
 	
 	//close source
@@ -87,6 +92,7 @@ public class ExecSQL {
 		
 		
 	}
+	
 
 //	public static void main(String[] args) {
 //		
