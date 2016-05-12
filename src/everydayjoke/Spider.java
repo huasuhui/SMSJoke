@@ -16,13 +16,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-<<<<<<< HEAD
-import com.sun.jna.platform.win32.BaseTSD.SSIZE_T;
-
-import jdbcUtils.ExecSQL;
-
-=======
->>>>>>> 93554c8a5bd318357d9d5009df7a95ddaba3bf0b
 public class Spider {
 	public Spider(){}
 	
