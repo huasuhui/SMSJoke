@@ -16,6 +16,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.sun.jna.platform.win32.BaseTSD.SSIZE_T;
+
 import jdbcUtils.ExecSQL;
 
 public class Spider {
@@ -56,6 +58,9 @@ public class Spider {
 				article = article.replace("</p>", "");
 				System.out.println(article);
 				System.out.println("------------");
+				if(!insertDB(title,article)){
+					System.out.println(title+" b");
+				}
 				SMSSend mSMSSend = new SMSSend();
 				mSMSSend.taobaosend(title+article);
 				break;
