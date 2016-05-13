@@ -82,11 +82,7 @@ public class Spider {
 	// insert titie,content into database
 	private boolean insertDB(String title,String content){
 		ExecSQL tExecSQL = new ExecSQL();
-		boolean res = tExecSQL.executeInsert("insert into article(title,content,hassend) values('"+title+"','"+content+"','0')");
-		if(!res){
-			return false;
-		}
-		return true;
+		return tExecSQL.executeInsert("insert into article(title,content,hassend) values('"+title+"','"+content+"','0')");
 	}
 	
 	

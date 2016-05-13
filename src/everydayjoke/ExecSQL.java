@@ -4,10 +4,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Map;
-
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
 
@@ -37,12 +34,12 @@ public class ExecSQL {
 	private void getConnection() throws ClassNotFoundException, SQLException{
 		Class.forName(driver);
         conn = (Connection) DriverManager.getConnection(url, username, password);
+        stmt = (Statement) conn.createStatement();
 	}
 	
 	public ArrayList<ArrayList<String>> executeQuery(String sql){
 		resultList = new ArrayList<ArrayList<String>>();
 		try {
-			stmt = (Statement) conn.createStatement();
 			ret = stmt.executeQuery(sql);
 			while(ret.next()){
 //				System.out.println(ret.getMetaData().getColumnCount()); //can get column count
@@ -60,7 +57,6 @@ public class ExecSQL {
 		} finally{
 			
 		}
-		
 		return resultList;
 	}
 	
@@ -76,42 +72,30 @@ public class ExecSQL {
 	public boolean executeInsert(String sql){
 		int resultt = 0;
 		try {
-			stmt = (Statement) conn.createStatement();
 			resultt = stmt.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}finally{
-			closeSource(conn,stmt,ret);
+
 		}
-		
 		return resultt == 1;
 	}
 	
 	//close source
 	private void closeSource(Connection conn,Statement pst,ResultSet ret){
-		
-			try {
-				if(ret!=null){
-					ret.close();
-				}
-				if(pst!=null){
-					pst.close();
-				}
-				if(conn!=null){
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+		try {
+			if(ret!=null){
+				ret.close();
 			}
-		
-		
+			if(pst!=null){
+				pst.close();
+			}
+			if(conn!=null){
+				conn.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	
-
-//	public static void main(String[] args) {
-//		
-//
-//	}
-
 }
