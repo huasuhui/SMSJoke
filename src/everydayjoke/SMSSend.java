@@ -17,16 +17,15 @@ public class SMSSend {
 	 *taobao dayu SMS api
 	 * */
 	
-	public void taobaosend(String content){
+	public boolean taobaosend(String name,String phone,String title,String content){
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
 		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
 		req.setExtend("123456");
 		req.setSmsType("normal");
-		req.setSmsFreeSignName("活动验证");
-		content = "一个，就一个，只有一个！";
-		req.setSmsParamString("{\"code\":\"xiao2B\",\"product\":\"suifengJoke\",\"item\":\""+content+"\"}");
-		req.setRecNum("18652809982");
-		req.setSmsTemplateCode("SMS_7865119");
+		req.setSmsFreeSignName("随风笑话");
+		req.setSmsParamString("{\"name\":\""+name+"\",\"jokecode\":\""+title+","+content+"\"}");
+		req.setRecNum(phone);
+		req.setSmsTemplateCode("SMS_8942033");
 		AlibabaAliqinFcSmsNumSendResponse rsp;
 		
 		String result = "";
@@ -36,8 +35,10 @@ public class SMSSend {
 			result = rsp.getBody();
 		} catch (ApiException e) {
 			e.printStackTrace();
+			return false;
 		}
 		System.out.println(result);
+		return true;
 	}
 	
 }

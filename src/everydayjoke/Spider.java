@@ -16,10 +16,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+@SuppressWarnings("deprecation")
 public class Spider {
 	public Spider(){}
 	
-	public void getJoke(String url){
+	public boolean getJoke(String url){
 		//1.create a request type (get or post)
 		HttpUriRequest request = new HttpGet(url);
 		
@@ -55,12 +56,17 @@ public class Spider {
 				article = article.replace("</p>", "");
 				System.out.println(article);
 				System.out.println("------------");
-				if(!insertDB(title,article)){
-					System.out.println(title+" b");
+				
+				Uniq tUniq = new Uniq();
+				if(tUniq.isRepitition(title+","+content)){
+					System.out.println("笑话重复，不存进数据库！");
+					continue;
 				}
-//				SMSSend mSMSSend = new SMSSend();
-//				mSMSSend.taobaosend(title+article);
-//				break;
+				
+				if(!insertDB(title,article)){
+					System.out.println(title+" 笑话保存进数据库失败！");
+					return false;
+				}
 
 			}
 
@@ -69,7 +75,10 @@ public class Spider {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
+	
+	
 	// insert titie,content into database
 	private boolean insertDB(String title,String content){
 		ExecSQL tExecSQL = new ExecSQL();
