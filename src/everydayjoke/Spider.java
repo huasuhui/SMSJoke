@@ -58,15 +58,15 @@ public class Spider {
 				System.out.println("------------");
 				
 				Uniq tUniq = new Uniq();
-				if(tUniq.isRepitition(title+","+content)){
+				if(tUniq.isRepitition(title+"，"+article)){
 					System.out.println("笑话重复，不存进数据库！");
 					continue;
 				}
 				
-				if(!insertDB(title,article)){
-					System.out.println(title+" 笑话保存进数据库失败！");
-					return false;
-				}
+//				if(!insertDB(title,article)){
+//					System.out.println(title+" 笑话保存进数据库失败！");
+//					return false;
+//				}
 
 			}
 

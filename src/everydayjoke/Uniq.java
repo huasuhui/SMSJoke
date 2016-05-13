@@ -5,22 +5,10 @@ import java.util.HashSet;
 
 public class Uniq {
 	
-	private ArrayList<String> splitREG = null;
+	private String reg = "[，。]";
 	
-	Uniq(){
-		initSplitReg();
-	}
-	
-	/**
-	 * 初始化分割规则
-	 * */
-	private void initSplitReg(){
-		splitREG.add(",");
-		splitREG.add(".");
-		splitREG.add(",");
-		splitREG.add("。");
-	}
-	
+	Uniq(){}
+
 	public boolean isRepitition(String str){
 		
 		isHasJoke(str);
@@ -52,30 +40,10 @@ public class Uniq {
 	 * */
 	private HashSet<String> splitStr(String str){
 		HashSet<String> resulthashset = new HashSet<String>();
-		//先分割一次，给for循环中使用
-		String[] tmpStr = str.split(splitREG.get(0));
-		for(int i=0;i<=tmpStr.length;i++)
+		String[] tmpStr = str.split(reg);
+		for(int i=0;i<tmpStr.length;i++)
 			resulthashset.add(tmpStr[i]);
-		
-		//三段for循环，看着就不爽，得优化
-		boolean splitFlag = true;;
-		for(int x=1;x<=splitREG.size();x++){
-			HashSet<String> tmphashset = new HashSet<String>();
-			for(String strset : resulthashset){
-				String[] tmp = 	strset.split(splitREG.get(x)); 
-				if(splitFlag){
-					for(int i=0;i<=tmp.length;i++){
-						tmphashset.add(tmpStr[i]);
-						splitFlag = true;
-					}
-				}
-			}
-			if(!splitFlag){//如果一个循环下来没有分割一次，表明无法再分割下去了
-				break;
-			}
-			resulthashset = tmphashset;
-			splitFlag = false;
-		}
+
 		
 		return resulthashset;
 	}
