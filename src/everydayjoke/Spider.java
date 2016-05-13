@@ -63,10 +63,10 @@ public class Spider {
 					continue;
 				}
 				
-//				if(!insertDB(title,article)){
-//					System.out.println(title+" 笑话保存进数据库失败！");
-//					return false;
-//				}
+				if(!insertDB(title,article)){
+					System.out.println(title+" 笑话保存进数据库失败！");
+					return false;
+				}
 
 			}
 
