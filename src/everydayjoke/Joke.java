@@ -4,23 +4,35 @@ import java.util.ArrayList;
 
 public class Joke {
 	private ExecSQL tExecSQL = new ExecSQL();
+	
+	private int jokeNumLimit = 30;
+	
 	Joke(){}
 	
 	private void start(){
 		// joke get test
 		String jokeURL = "http://xiaohua.zol.com.cn/baoxiao/";
 		Spider spider = new Spider();
-		if(!spider.getJoke(jokeURL)){
-			System.out.println("抓取网页信息失败并存储失败！");
+		if(checkJokeLimit()){
+			if(!spider.getJoke(jokeURL)){
+				System.out.println("spider faile");
+			}
 		}
+		
 		if(!startSendJoke()){
-			System.out.println("最终结果失败！");
+			System.out.println("send faile");
 		}
+	}
+	
+	//query joke beyond limit 
+	private boolean checkJokeLimit(){
+		String jokenum = tExecSQL.getOneValue("select count(1) from article where hassend = '0'");
+		return Integer.parseInt(jokenum) <= jokeNumLimit;
 	}
 	
 	
 	/**
-	 * 调用SMSSend发送短信
+	 * start send SMS
 	 * */
 	private boolean startSendJoke(){
 		ArrayList<ArrayList<String>> phoneList = tExecSQL.executeQuery("select name,phone from phone");
@@ -36,9 +48,9 @@ public class Joke {
 				return false;
 			}
 		}
-		//笑话发送一次以后不再发送了
+		// only send one time
 		if(!updateHasSend(articleid)){
-			System.out.println(articleid+"，已经发送，但是写入数据库失败！");
+			System.out.println(articleid+"update faile");
 			return false;
 		}
 		
